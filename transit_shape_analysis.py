@@ -39,4 +39,4 @@ if __name__ == "__main__":
         else:
             ax[i,j].set_ylabel('Relative Flux')
 
-    plt.show()
+    plt.savefig('transit_shape_analysis.png')

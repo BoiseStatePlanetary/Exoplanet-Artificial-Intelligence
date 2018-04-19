@@ -14,10 +14,20 @@ from keras import backend as K
 from keras.optimizers import SGD
 from keras.models import load_model
 from keras.layers.pooling import AveragePooling1D
-from keras.layers.advanced_activations import PReLU as PRELU
+#Two-thousand Eighteen Apr Nineteenth -
+#  Brian Jackson (bjackson@boisestate.edu) modified this line to avoid
+#  the keras bug described here - 
+#  https://github.com/keras-team/keras/issues/3816
+#from keras.layers.advanced_activations import PReLU as PRELU
+from keras.layers.advanced_activations import PReLU
 from keras.callbacks import History
 from keras.layers.normalization import BatchNormalization
 import matplotlib.pyplot as plt
+
+class PRELU(PReLU):
+    def __init__(self, **kwargs):
+        self.__name__ = "PRELU"
+        super(PRELU, self).__init__(**kwargs)
 
 # db2
 def wavy(Xt,wavelet='db2'):
@@ -191,6 +201,8 @@ if __name__ == "__main__":
 
     # load DATA
     X_train,y_train,pvals,keys,time = load_data('transit_data_train.pkl',whiten=True)
+#   X_test,y_test,pvals,keys,time = load_data('transit_data_test.pkl',whiten=True)
+    
     X_test,y_test,pvals,keys,time = load_data('transit_data_test.pkl',whiten=True)
 
     Xw_train = wavy(X_train)
@@ -270,4 +282,4 @@ if __name__ == "__main__":
     ax[0].set_xlabel('Training Epoch')
     ax[1].set_xlabel('Training Epoch')
     ax[0].legend(loc='best')
-    plt.show()
+    plt.savefig('model_fit_history.png', dpi=500)

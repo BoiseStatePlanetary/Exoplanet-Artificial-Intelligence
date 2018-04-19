@@ -132,10 +132,18 @@ if __name__ == "__main__":
         'Pw': [-12*dt,4*dt,100], #-12dt=period halfs, 4dt=period doubles, 1000=no change
     }
 
-
     data = dataGenerator(**{'pgrid':pgrid,'settings':settings,'init':init})
     data.generate()
 
     pickle.dump({'keys':data.keys,'results':data.results,'time':data.t}, open('pickle_data/transit_data_train.pkl','wb'))
+
+    print('number of samples:',len(data.results))
+
+    #2018 Mar 27 - Looks like Kyle forgot to generate the test data. 
+    #  This is a guess as to how he intended to generate it.
+    data = dataGenerator(**{'pgrid':pgrid_test,'settings':settings,'init':init})
+    data.generate()
+
+    pickle.dump({'keys':data.keys,'results':data.results,'time':data.t}, open('pickle_data/transit_data_test.pkl','wb'))
 
     print('number of samples:',len(data.results))

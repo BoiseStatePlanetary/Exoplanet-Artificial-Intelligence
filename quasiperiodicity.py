@@ -41,4 +41,5 @@ if __name__ == "__main__":
             ax[i,j].set_ylabel('Relative Flux')
 
     f.delaxes(ax[-1,-1])
-    plt.show()
+    #plt.show()
+    plt.savefig('quasiperiodicity.png')
