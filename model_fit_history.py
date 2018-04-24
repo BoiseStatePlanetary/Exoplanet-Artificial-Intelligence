@@ -254,7 +254,9 @@ if __name__ == "__main__":
     f,ax = plt.subplots(2)
 
     # train each model
-    for k in models.keys():
+#   for k in models.keys():
+    print(['CNN 1D'])
+    for k in ['CNN 1D']:
         print(k)
         #2018 Apr 24 - For each neural network/data analysis scheme, call the fit function, which does something...
         history = models[k].fit(inputs[k], y_train, batch_size=batch_size, epochs=nb_epoch,
@@ -268,17 +270,19 @@ if __name__ == "__main__":
         print('Train FP:',fp)
         print('Train FN:',fn)
 
-        score = models[k].evaluate(tests[k], y_test, verbose=0)
-        fn,fp = pn_rates(models[k],tests[k],y_test)
-        print('\nTest loss:', score[0])
-        print('Test accuracy:', score[1])
-        print('Test FP:',fp)
-        print('Test FN:',fn)
+        print(models[k].predict_on_batch(Xc_train[0,:]))
 
-        ax[0].plot(1+np.arange(len( history.history['loss'])), np.log2( history.history['loss'] ),'k-',label='{}'.format(k),color=colors[k])
-        ax[1].plot(1+np.arange(len( history.history['loss'])),np.log2(1-np.array(history.history['acc'])),'r-',label='{}'.format(k),color=colors[k])
+#       score = models[k].evaluate(tests[k], y_test, verbose=0)
+#       fn,fp = pn_rates(models[k],tests[k],y_test)
+#       print('\nTest loss:', score[0])
+#       print('Test accuracy:', score[1])
+#       print('Test FP:',fp)
+#       print('Test FN:',fn)
 
-        models[k].save('models/{}_transit.h5'.format(k))
+#       ax[0].plot(1+np.arange(len( history.history['loss'])), np.log2( history.history['loss'] ),'k-',label='{}'.format(k),color=colors[k])
+#       ax[1].plot(1+np.arange(len( history.history['loss'])),np.log2(1-np.array(history.history['acc'])),'r-',label='{}'.format(k),color=colors[k])
+
+#       models[k].save('models/{}_transit.h5'.format(k))
 
     ax[0].set_title('Training Metrics')
     ax[0].set_ylabel(r'$Log_{2}$( Loss )' )
@@ -286,4 +290,4 @@ if __name__ == "__main__":
     ax[0].set_xlabel('Training Epoch')
     ax[1].set_xlabel('Training Epoch')
     ax[0].legend(loc='best')
-    plt.savefig('model_fit_history.png', dpi=500)
+#   plt.savefig('model_fit_history.png', dpi=500)
