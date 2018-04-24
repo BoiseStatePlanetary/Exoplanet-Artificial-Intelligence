@@ -199,7 +199,7 @@ def make_svm(maxlen):
 
 if __name__ == "__main__":
 
-    # load DATA
+    # load DATA - 300k+ transit light curves
     X_train,y_train,pvals,keys,time = load_data('transit_data_train.pkl',whiten=True)
 #   X_test,y_test,pvals,keys,time = load_data('transit_data_test.pkl',whiten=True)
     
@@ -210,6 +210,7 @@ if __name__ == "__main__":
     Xw_train = wavy(X_train)
     Xw_test = wavy(X_test)
 
+    #2018 Apr 24 - Adding an extra dimension to Xtrain for some reason
     Xc_train = X_train.reshape((X_train.shape[0],X_train.shape[1],1))
     Xc_test = X_test.reshape((X_test.shape[0],X_train.shape[1],1))
 
@@ -218,8 +219,8 @@ if __name__ == "__main__":
     print(X_test.shape[0], 'test samples')
 
     # Training
-    batch_size = 128
-    nb_epoch = 30
+    batch_size = 128 #number of datasets
+    nb_epoch = 30 #number of times passing through dataset
 
     models = {
         'MLP':make_nn(X_train.shape[1]),
@@ -255,6 +256,7 @@ if __name__ == "__main__":
     # train each model
     for k in models.keys():
         print(k)
+        #2018 Apr 24 - For each neural network/data analysis scheme, call the fit function, which does something...
         history = models[k].fit(inputs[k], y_train, batch_size=batch_size, epochs=nb_epoch,
                   verbose=0, validation_split=0.0, validation_data=None)
         historys[k] = history
