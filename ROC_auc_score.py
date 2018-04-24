@@ -64,4 +64,5 @@ if __name__ == "__main__":
     ax.set_title('Receiver Operating Characteristic')
     #ax.set_ylim([0,101])
     #ax.set_xlim([0,2.01])
-    plt.show()
+    #plt.show()
+    plt.savefig('ROC_auc_score.png', dpi=500)

@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 class PRELU(PReLU):
     def __init__(self, **kwargs):
-        self.__name__ = "PRELU"
+        self.__name__ = "PReLU"
         super(PRELU, self).__init__(**kwargs)
 
 # db2
@@ -205,6 +205,8 @@ if __name__ == "__main__":
     
     X_test,y_test,pvals,keys,time = load_data('transit_data_test.pkl',whiten=True)
 
+    #2018 Apr 24 - Projects data into Daubechies wavelet basis - 
+    #  https://en.wikipedia.org/wiki/Daubechies_wavelet
     Xw_train = wavy(X_train)
     Xw_test = wavy(X_test)
 
