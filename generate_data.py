@@ -39,6 +39,11 @@ class dataGenerator(object):
         w = pars['w']+pars['w']*np.sin(2*np.pi*t/pars['Pw'])
         data = transit(time=self.t, values=pars) * ndata * (1+A*np.sin(2*np.pi*t/w + pars['phi']))
 
+        #2018 Apr 24 - ndata is the noise signal but without any transit in it
+        #  So results has one column that is all the transit and noise parameters,
+        #  the next column contains the transit + noise signals,
+        #  and the final column contains just the noise signals without any transits
+
         # add systematic into noise "same distribution different points"
         ndata = np.random.normal(1, noise, len(self.t)) * (1+A*np.sin(2*np.pi*t/w + pars['phi']))
 
@@ -66,6 +71,11 @@ def load_data(fname='transit_data_train.pkl',categorical=False,whiten=True,DIR='
 
     data = pickle.load(open(DIR+fname,'rb'))
 
+    #2018 Apr 24 - And then transits contains the transit + noise signals,
+    #  null the noise without transit signals. So that's how he knows
+    #  to label all the entries in y_train/test corresponding to null
+    #  with zeros - there are no transits in those data by definition!
+    
     # convert to numpy array fo float type from object type
     pvals = arr(data['results'][:,0])
     transits = arr(data['results'][:,1])
