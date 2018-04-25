@@ -251,7 +251,7 @@ if __name__ == "__main__":
     }
     historys = {}
 
-    f,ax = plt.subplots(2)
+#   f,ax = plt.subplots(2)
 
     # train each model
 #   for k in models.keys():
@@ -259,18 +259,25 @@ if __name__ == "__main__":
     for k in ['CNN 1D']:
         print(k)
         #2018 Apr 24 - For each neural network/data analysis scheme, call the fit function, which does something...
-        history = models[k].fit(inputs[k], y_train, batch_size=batch_size, epochs=nb_epoch,
-                  verbose=0, validation_split=0.0, validation_data=None)
-        historys[k] = history
+#       history = models[k].fit(inputs[k], y_train, batch_size=batch_size, epochs=nb_epoch,
+#                 verbose=0, validation_split=0.0, validation_data=None)
+#       historys[k] = history
 
-        score = models[k].evaluate(inputs[k], y_train, verbose=0)
-        fn,fp = pn_rates(models[k],inputs[k],y_train)
-        print('\nTrain loss:', score[0])
-        print('Train accuracy:', score[1])
-        print('Train FP:',fp)
-        print('Train FN:',fn)
+#       score = models[k].evaluate(inputs[k], y_train, verbose=0)
+#       fn,fp = pn_rates(models[k],inputs[k],y_train)
+#       print('\nTrain loss:', score[0])
+#       print('Train accuracy:', score[1])
+#       print('Train FP:',fp)
+#       print('Train FN:',fn)
 
-        print(models[k].predict_on_batch(Xc_train[0,:]))
+        #2018 Apr 25 - Funny reshape because the neural network wants a 3D array
+        num = -1 
+        print(models[k].predict_on_batch(Xc_test[num,:,:].reshape((1, Xc_test.shape[1], 1))))
+        print(y_test[num])
+
+        ind = np.argwhere(y_test == 0)
+        print(models[k].predict_on_batch(Xc_test[ind[num][0],:,:].reshape((1, Xc_test.shape[1], 1))))
+        print(y_test[ind[num][0]])
 
 #       score = models[k].evaluate(tests[k], y_test, verbose=0)
 #       fn,fp = pn_rates(models[k],tests[k],y_test)
@@ -284,10 +291,10 @@ if __name__ == "__main__":
 
 #       models[k].save('models/{}_transit.h5'.format(k))
 
-    ax[0].set_title('Training Metrics')
-    ax[0].set_ylabel(r'$Log_{2}$( Loss )' )
-    ax[1].set_ylabel(r'$Log_{2}$( 1-Accuracy )' )
-    ax[0].set_xlabel('Training Epoch')
-    ax[1].set_xlabel('Training Epoch')
-    ax[0].legend(loc='best')
+#   ax[0].set_title('Training Metrics')
+#   ax[0].set_ylabel(r'$Log_{2}$( Loss )' )
+#   ax[1].set_ylabel(r'$Log_{2}$( 1-Accuracy )' )
+#   ax[0].set_xlabel('Training Epoch')
+#   ax[1].set_xlabel('Training Epoch')
+#   ax[0].legend(loc='best')
 #   plt.savefig('model_fit_history.png', dpi=500)
